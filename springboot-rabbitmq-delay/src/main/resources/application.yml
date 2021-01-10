@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: springboot-rabbitmq-delay
+  rabbitmq:
+    host: 127.0.0.1
+    virtual-host: /myVirtualhost
+    port: 5672
+    username: guest
+    password: guest

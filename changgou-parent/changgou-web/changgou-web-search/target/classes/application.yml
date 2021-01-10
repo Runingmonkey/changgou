@@ -1,0 +1,19 @@
+server:
+  port: 18086
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:7001/eureka
+  instance:
+    prefer-ip-address: true
+spring:
+  thymeleaf:
+    cache: false
+  application:
+    name: search-web
+  main:
+    allow-bean-definition-overriding: true
+# 修改服务地址轮询策略，默认是轮询，配置之后变随机
+ribbon:
+  ConnectTimeout: 10000 # 连接超时时间
+  ReadTimeout: 10000 # 数据读取超时时间

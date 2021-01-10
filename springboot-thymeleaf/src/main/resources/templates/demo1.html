@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thymeleaf的入门</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<!--表单提交-->
+<form th:action="@{/demo}">
+    <input type="submit">
+</form>
+<!--页面输出-->
+<table>
+    <tr>
+        <td>编号index</td>
+        <td>编号count</td>
+        <td>id</td>
+        <td>姓名</td>
+        <td>地址</td>
+    </tr>
+    <tr th:each="user,userStat:${users}">
+        <td th:text="${userStat.index}"></td>
+        <td th:text="${userStat.count}"></td>
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.address}"></td>
+    </tr>
+</table>
+
+<!--获取Map的数据-->
+<span th:text="${dataMap.No}"></span>
+<span th:text="${dataMap.address}"></span>
+<br>
+<em th:each="map:${dataMap}">
+    <span th:text="${map.key}"></span>
+    <span th:text="${map.value}"></span>
+</em>
+
+<br/>
+<!--数组-->
+<em th:each="name:${names}">
+    <span th:text="${name}"></span>
+</em>
+
+<br/>
+<!--获取日期,并进行格式化-->
+<span th:text="${#dates.format(date,'yyyy-MM-dd hh:mm:ss')}"></span>
+
+
+<div id="A" th:include="footer::copy"></div>
+
+</body>
+</html>

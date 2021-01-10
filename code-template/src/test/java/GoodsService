@@ -1,0 +1,56 @@
+   //获取spu的数据
+        Spu spu = goods.getSpu();
+
+        //spuid为空代表新增数据
+        if(StringUtils.isEmpty(spu.getId())){
+            //设置spu的id
+            spu.setId("No" + idWorker.nextId());
+            //保存spu
+            spuMapper.insertSelective(spu);
+        }else{ //spuid不为空,直接去更新数据
+            spuMapper.updateByPrimaryKeySelective(spu);
+
+            //清除掉就的sku的数据
+            Sku sku = new Sku();
+            sku.setSpuId(spu.getId());
+            skuMapper.delete(sku);
+        }
+
+        //查询类别的名字
+        Category category = categoryMapper.selectByPrimaryKey(spu.getCategory3Id());
+
+        //查询品牌的名字
+        Brand brand = brandMapper.selectByPrimaryKey(spu.getBrandId());
+
+        //获取sku列表的数据
+        List<Sku> skuList = goods.getSkuList();
+        for (Sku sku : skuList) {
+            //id
+            sku.setId("No" + idWorker.nextId());
+            //name
+            String spec = sku.getSpec();
+            Map<String, String> map = JSONObject.parseObject(spec, Map.class);
+            String name = spu.getName();
+            //循环规格数据
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                //key: 书籍分类 value :科技
+                name += " " + entry.getValue();
+            }
+            //黑马培训 科技 有一定java基础的人
+            sku.setName(name);
+            //创建时间
+            sku.setCreateTime(new Date());
+            //修改时间
+            sku.setUpdateTime(new Date());
+            //spuId
+            sku.setSpuId(spu.getId());
+            //类别id
+            sku.setCategoryId(spu.getCategory3Id());
+            //类别的名字
+            sku.setCategoryName(category.getName());
+            //品牌的名字
+            sku.setBrandName(brand.getName());
+
+            //保存sku的信息
+            skuMapper.insertSelective(sku);
+        }
